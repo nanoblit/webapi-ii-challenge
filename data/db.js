@@ -1,17 +1,7 @@
 const knex = require('knex');
 const knexConfig = require('../knexfile.js');
-const db = knex(knexConfig.development);
 
-module.exports = {
-  find,
-  findById,
-  insert,
-  update,
-  remove,
-  findPostComments,
-  findCommentById,
-  insertComment,
-};
+const db = knex(knexConfig.development);
 
 function find() {
   return db('posts');
@@ -54,5 +44,21 @@ function findCommentById(id) {
 }
 
 function insertComment(comment) {
-  return db('comments').insert(comment).then(ids => ({ id: ids[0] }));
+  return db('comments')
+    .insert(comment)
+    .then(ids => ({ id: ids[0] }))
+    .catch((error) => {
+      console.log(error);
+    });
 }
+
+module.exports = {
+  find,
+  findById,
+  insert,
+  update,
+  remove,
+  findPostComments,
+  findCommentById,
+  insertComment,
+};
